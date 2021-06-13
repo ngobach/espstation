@@ -1,12 +1,8 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <DHT.h>
-#include <DHT_U.h>
-#include "display.h"
-#include "blink.h"
 
-#define DHT_TYPE DHT11
-#define DHT_PAD GPIO_NUM_18
+#include "display.h"
+
 #define BUZZER_PAD GPIO_NUM_23
 
 DHT_Unified dht(DHT_PAD, DHT_TYPE);
