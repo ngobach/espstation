@@ -8,8 +8,8 @@
 class Display
 {
 private:
+  const uint32_t TICKER_INTERVAL = 200;
   Adafruit_SSD1306 d;
-  Ticker tkr;
   Screen *screen;
 public:
   Display();
@@ -22,7 +22,6 @@ const uint8_t SCREEN_WIDTH = 128;
 const uint8_t SCREEN_HEIGHT = 64;
 const uint8_t SCREEN_I2C_ADDRESS = 0x3C;
 const uint8_t RESET_PIN = -1;
-const uint32_t TICKER_INTERVAL = 3000;
 
 Display::Display():
   d(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, RESET_PIN),
@@ -34,21 +33,21 @@ void Display::begin() {
   }
 
   this->d.clearDisplay();
-  delay(50);
   this->d.display();
-
-  this->tkr.attach_ms<Display*>(TICKER_INTERVAL, [](Display *self) {
-    self->tick();
-  }, this);
 }
 
 void Display::tick() {
+  if (screen != nullptr) {
+    screen->onTick();
+  }
   if (screen != nullptr && screen->isDirty()) {
-    Serial.println("Redrawn");
+    d.clearDisplay();
+    d.setCursor(0, 0);
+    d.setTextColor(SSD1306_WHITE);
     screen->draw(&d);
     screen->setDirty(false);
-    delay(100);
     d.display();
+    // delay(50);
   }
 }
 
@@ -60,7 +59,6 @@ void Display::switch_screen(Screen *newScreen) {
 
   screen = newScreen;
   screen->onMount();
-  this->tick();
 }
 
 Display MyDisplay;
