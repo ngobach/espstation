@@ -1,8 +1,8 @@
-#include <Adafruit_SSD1306.h>
-
 #ifndef SCREEN_H
 #define SCREEN_H
-
+#include <Arduino.h>
+#include <Adafruit_SSD1306.h>
+#include "common.h"
 
 class Screen {
 private:
@@ -37,5 +37,23 @@ void Screen::onMount() {
 
 void Screen::onUnmount() {
   mounted = false;
+}
+
+enum ScreenNames {
+  splash,
+  weather,
+  internet_weather
+};
+
+#include "screens/splash.h"
+
+
+Screen* load_screen(ScreenNames screen_name) {
+  switch (screen_name) {
+    case ScreenNames::splash:
+      return new SplashScreen;
+    default:
+      panic("Invalid screen name");
+  }
 }
 #endif

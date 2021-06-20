@@ -51,13 +51,13 @@ void Display::tick() {
   }
 }
 
-void Display::switch_screen(Screen *newScreen) {
+void Display::switch_screen(Screen *new_screen) {
   if (screen != nullptr) {
     screen->onUnmount();
     delete screen;
   }
 
-  screen = newScreen;
+  screen = new_screen;
   screen->onMount();
 }
 

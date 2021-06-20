@@ -11,23 +11,15 @@ const uint8_t BUTTON_PAD = GPIO_NUM_0;
 const uint8_t BUZZER_PAD = GPIO_NUM_23;
 const uint8_t LED_PAD = BUILTIN_LED;
 const uint16_t FRAME_TIME = 100;
-Ticker ticker_sensor;
 Button button(BUTTON_PAD);
-
-void read_sensor() {
-  auto value = MySensor.get();
-  Serial.printf("Temp: %.0f, Humidity: %.0f\n", value.temperature, value.relative_humidity);
-}
 
 void setup() {
   Serial.begin(9600);
   MySensor.begin();
   MyDisplay.begin();
-  Screen *splash = new SplashScreen();
-  MyDisplay.switch_screen(splash);
+  MyDisplay.switch_screen(load_screen(ScreenNames::splash));
   pinMode(BUZZER_PAD, OUTPUT);
   pinMode(LED_PAD, OUTPUT);
-  ticker_sensor.attach_ms(5000, read_sensor);
 }
 
 void loop() {

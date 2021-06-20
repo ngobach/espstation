@@ -18,6 +18,10 @@ class SplashScreen: virtual public Screen {
       display->printf("C: %d", counter);
     }
 
+    void onMount() {
+      counter = 0;
+    }
+
     void onTick() {
       counter++;
       setDirty(true);
