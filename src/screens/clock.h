@@ -11,7 +11,7 @@ private:
   void get_time_str(char *buffer)
   {
     time_t n = now();
-    sprintf(buffer, "%2d:%2d:%2d", hour(n), minute(n), second(n));
+    sprintf(buffer, "NOW: %02d:%02d:%02d", hour(n), minute(n), second(n));
   }
 
 public:
