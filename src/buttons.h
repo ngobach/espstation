@@ -18,6 +18,10 @@ class Button {
       return current_value != last_value && current_value == HIGH;
     }
 
+    uint8_t get_current() {
+      return current_value;
+    }
+
     void update() {
       int new_value = digitalRead(pin);
       last_value = current_value;

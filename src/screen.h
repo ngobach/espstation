@@ -39,21 +39,4 @@ void Screen::onUnmount() {
   mounted = false;
 }
 
-enum ScreenNames {
-  splash,
-  weather,
-  internet_weather
-};
-
-#include "screens/splash.h"
-
-
-Screen* load_screen(ScreenNames screen_name) {
-  switch (screen_name) {
-    case ScreenNames::splash:
-      return new SplashScreen;
-    default:
-      panic("Invalid screen name");
-  }
-}
 #endif
