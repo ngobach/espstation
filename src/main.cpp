@@ -19,6 +19,8 @@ ScreenNames next_screen_of(ScreenNames current) {
   switch (current) {
     case ScreenNames::splash:
       return ScreenNames::clock;
+    case ScreenNames::clock:
+      return ScreenNames::weather;
     default:
       return ScreenNames::splash;
   }
@@ -32,6 +34,7 @@ void setup() {
   MyDisplay.switch_screen(load_screen(current_screen));
   // pinMode(BUZZER_PAD, OUTPUT);
   pinMode(LED_PAD, OUTPUT);
+  // TODO: Brownout detected :(
   // wifi_init();
 }
 
