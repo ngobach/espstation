@@ -10,6 +10,7 @@
 class ClockScreen : virtual public Screen
 {
 private:
+  int8_t last_second = -1;
   void get_time_str(char *buffer)
   {
     time_t n = now();
@@ -19,7 +20,10 @@ private:
 public:
   void onTick()
   {
-    setDirty(true);
+    if (second() != last_second) {
+      setDirty(true);
+      last_second = second();
+    }
   }
 
   void draw(Adafruit_SSD1306 *display)

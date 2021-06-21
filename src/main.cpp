@@ -6,6 +6,7 @@
 #include "display.h"
 #include "screen_loader.h"
 #include "buttons.h"
+#include "wifinit.h"
 
 const uint8_t BUTTON_PAD = GPIO_NUM_0;
 // const uint8_t BUZZER_PAD = GPIO_NUM_23;
@@ -31,6 +32,7 @@ void setup() {
   MyDisplay.switch_screen(load_screen(current_screen));
   // pinMode(BUZZER_PAD, OUTPUT);
   pinMode(LED_PAD, OUTPUT);
+  // wifi_init();
 }
 
 void loop() {
