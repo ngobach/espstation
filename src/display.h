@@ -43,6 +43,7 @@ void Display::tick() {
   if (screen != nullptr && screen->isDirty()) {
     d.clearDisplay();
     d.setFont();
+    d.setTextSize(1);
     d.setCursor(0, 0);
     d.setTextColor(SSD1306_WHITE);
     screen->draw(&d);

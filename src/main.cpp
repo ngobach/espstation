@@ -7,6 +7,7 @@
 #include "screen_loader.h"
 #include "buttons.h"
 #include "wifinit.h"
+#include "ir.h"
 
 const uint8_t BUTTON_PAD = GPIO_NUM_0;
 // const uint8_t BUZZER_PAD = GPIO_NUM_23;
@@ -21,6 +22,8 @@ ScreenNames next_screen_of(ScreenNames current) {
       return ScreenNames::clock;
     case ScreenNames::clock:
       return ScreenNames::weather;
+    case ScreenNames::weather:
+      return ScreenNames::ir_tool;
     default:
       return ScreenNames::splash;
   }
@@ -36,6 +39,7 @@ void setup() {
   pinMode(LED_PAD, OUTPUT);
   // TODO: Brownout detected :(
   // wifi_init();
+  MyIR.begin();
 }
 
 void loop() {
@@ -47,6 +51,7 @@ void loop() {
   }
   digitalWrite(LED_PAD, button.get_current() ? LOW : HIGH);
   MyDisplay.tick();
+  MyIR.tick();
   auto now = millis();
   delay(max(0UL, FRAME_TIME - (now - start)));
 }
