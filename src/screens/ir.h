@@ -10,14 +10,18 @@ private:
 
 public:
   void onTick() {
-    auto tmp = MyIR.read_freq();
-    if (tmp > 0) {
-      value = tmp;
+    if (MyIR.get_last_value() > 0) {
+      value = MyIR.get_last_value();
       setDirty(true);
     }
   }
 
   void draw(Adafruit_SSD1306 *d) {
-    d->printf("Value: %u", value);
+    d->drawRect(0, 0, d->width(), d->height(), SSD1306_WHITE);
+    d->setTextSize(2);
+    d->setCursor(4, 4);
+    d->print("IR Test");
+    d->setCursor(4, 4 + 18);
+    d->printf("Key: %u", value);
   }
 };

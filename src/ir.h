@@ -9,6 +9,7 @@ private:
   typedef void (*key_press_cb)(uint8_t);
   uint8_t pin;
   std::vector<key_press_cb> callbacks;
+  uint8_t last_value;
   void dispatch_key_pressed(uint8_t key_code) {
     for (auto cb : callbacks) {
       cb(key_code);
@@ -43,7 +44,7 @@ public:
     IrReceiver.enableIRIn();
   }
 
-  uint32_t read_freq() {
+  uint32_t read_value() {
     if (IrReceiver.decode()) {
       auto value = IrReceiver.decodedIRData.command;
       IrReceiver.resume();
@@ -54,14 +55,21 @@ public:
   }
 
   void tick() {
-    uint32_t freq = read_freq();
-    if (freq) {
-      dispatch_key_pressed(freq);
+    uint32_t value = read_value();
+    if (value) {
+      dispatch_key_pressed(value);
+      last_value = value;
+    } else {
+      last_value = 0;
     }
   }
 
   void push_callback(key_press_cb cb) {
     callbacks.push_back(cb);
+  }
+
+  uint8_t get_last_value() {
+    return last_value;
   }
 };
 
