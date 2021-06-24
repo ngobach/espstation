@@ -29,17 +29,24 @@ public:
 
   void toggle_setting() {
     if (setting_values_focus >= 0) {
+      time_t t = now();
+      uint16_t h, m, s;
+      s = setting_values % 60;
+      m = setting_values / 60;
+      h = m / 60;
+      m = m % 60;
+      setTime(h, m, s, day(t), month(t), year(t));
       setting_values_focus = -1;
     } else {
       setting_values_focus = 0;
-      setting_values = 0;
+      setting_values = 1UL + hour() * 3600 + minute() * 60 + second();
     }
     set_dirty(true);
   }
 
   void setting_next_value() {
     setting_values_focus++;
-    if (setting_values_focus > 3) {
+    if (setting_values_focus >= 3) {
       setting_values_focus -= 3;
     }
     set_dirty(true);
@@ -66,6 +73,10 @@ public:
     ir_callback_key = MyIR.push_callback([this] (uint16_t code) {
       if (code == MyIR.ok) {
         toggle_setting();
+        return;
+      }
+
+      if (!is_setting_mode()) {
         return;
       }
 
@@ -123,7 +134,7 @@ public:
       m = m % 60;
       sprintf(str, "%02u:%02u:%02u", h, m, s);
       display->setTextSize(2);
-      dh.draw_text_centered(str, 20);
+      dh.draw_text_centered(str, (64 - 14) / 2);
     }
   }
 };
