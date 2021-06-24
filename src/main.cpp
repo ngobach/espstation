@@ -48,6 +48,8 @@ void setup() {
   MyIR.push_callback([] (uint8_t code) {
     if (code == MyIR.hash) {
       next_screen = next_screen_of(current_screen);
+    } else if (code == MyIR.star) {
+      next_screen = ScreenNames::splash;
     }
   });
 }

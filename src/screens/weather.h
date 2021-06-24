@@ -1,4 +1,5 @@
 #pragma once
+
 #include <Arduino.h>
 #include "screen.h"
 #include "sensor.h"
@@ -7,13 +8,13 @@ class WeatherScreen : public Screen
 {
 private:
   SensorRead value;
-  uint32_t last_read = 0;
+  uint16_t last_read = 0;
 public:
   void onTick()
   {
-    if (millis() * 1ULL - last_read >= 1000ULL) {
+    if (millis() - last_read >= 1000) {
       value = MySensor.get();
-      setDirty(true);
+      set_dirty(true);
       last_read = millis();
     }
   }

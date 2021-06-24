@@ -1,5 +1,4 @@
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#pragma once
 #include <Ticker.h>
 #include <Adafruit_SSD1306.h>
 #include "common.h"
@@ -40,14 +39,14 @@ void Display::tick() {
   if (screen != nullptr) {
     screen->onTick();
   }
-  if (screen != nullptr && screen->isDirty()) {
+  if (screen != nullptr && screen->is_dirty()) {
     d.clearDisplay();
     d.setFont();
     d.setTextSize(1);
     d.setCursor(0, 0);
     d.setTextColor(SSD1306_WHITE);
     screen->draw(&d);
-    screen->setDirty(false);
+    screen->set_dirty(false);
     d.display();
   }
 }
@@ -63,4 +62,4 @@ void Display::switch_screen(Screen *new_screen) {
 }
 
 Display MyDisplay;
-#endif
+

@@ -11,9 +11,9 @@ private:
 public:
   Screen();
   virtual ~Screen() {}
-  bool isDirty();
+  bool is_dirty();
   bool isMounted();
-  void setDirty(bool);
+  void set_dirty(bool);
   virtual void onMount();
   virtual void onUnmount();
   virtual void onTick() {}
@@ -22,11 +22,11 @@ public:
 
 Screen::Screen(): dirty(false), mounted(false) {}
 
-void Screen::setDirty(bool d) {
+void Screen::set_dirty(bool d) {
   this->dirty = d;
 }
 
-bool Screen::isDirty() {
+bool Screen::is_dirty() {
   return this->dirty;
 }
 

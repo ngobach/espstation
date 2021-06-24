@@ -1,5 +1,4 @@
-#ifndef SPLASH_SCREEN_H
-#define SPLASH_SCREEN_H
+#pragma once
 
 #include "screen.h"
 #include "bitmaps.h"
@@ -10,4 +9,3 @@ class SplashScreen: virtual public Screen {
       d->drawBitmap(0, 0, bm_logo, 128, 64, SSD1306_WHITE);
     }
 };
-#endif
