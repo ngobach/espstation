@@ -179,12 +179,12 @@ namespace appui
 
       if (!is_long)
       {
-        if (kc == KeyCode::Main && focused_index != coins.size() - 1)
+        if (kc == KeyCode::Sub && focused_index != coins.size() - 1)
         {
           update([this]
                  { focused_index = focused_index + 1; });
         }
-        else if (kc == KeyCode::Sub && focused_index > 0)
+        else if (kc == KeyCode::Main && focused_index > 0)
         {
           update([this]
                  { focused_index = focused_index - 1; });
@@ -192,7 +192,7 @@ namespace appui
       }
       else
       {
-        if (kc == KeyCode::Main)
+        if (kc == KeyCode::Sub)
         {
           AppUI.switch_screen(load_screen(ScreenName::Menu));
         }
@@ -204,7 +204,7 @@ namespace appui
   {
   private:
     bool connected = false;
-    char time_now[20];
+    char time_now[32], date_now[32];
     uint32_t last_check = 0;
 
   public:
@@ -220,11 +220,15 @@ namespace appui
       {
         draw_title(g, "Connected");
         g->setCursor(0, g->getMaxCharHeight());
-        g->printf("IP: %s", WiFi.localIP().toString().c_str());
+        g->printf("WF:%s", WiFi.SSID().c_str());
         g->setCursor(0, 2 * g->getMaxCharHeight());
-        g->printf("GW: %s", WiFi.gatewayIP().toString().c_str());
+        g->printf("IP:%s", WiFi.localIP().toString().c_str());
         g->setCursor(0, 3 * g->getMaxCharHeight());
-        g->printf("Now: %s", time_now);
+        g->printf("GW:%s", WiFi.gatewayIP().toString().c_str());
+        g->setCursor(0, 4 * g->getMaxCharHeight());
+        g->printf("T :%s", time_now);
+        g->setCursor(0, 5 * g->getMaxCharHeight());
+        g->printf("D :%s", date_now);
       }
     }
 
@@ -241,11 +245,13 @@ namespace appui
         uint32_t now = millis();
         if (now - last_check >= 1000)
         {
-          String timeString = NtpTime.get_time_string();
-          update([this, timeString, now]
+          String time_str = NtpTime.get_time_string();
+          String date_str = NtpTime.get_date_string();
+          update([this, time_str, date_str, now]
                  {
                    last_check = now;
-                   strcpy(time_now, timeString.c_str());
+                   strcpy(time_now, time_str.c_str());
+                   strcpy(date_now, date_str.c_str());
                  });
         }
       }
@@ -258,7 +264,7 @@ namespace appui
         return;
       }
 
-      if (kc == KeyCode::Main)
+      if (is_long && kc == KeyCode::Sub)
       {
         AppUI.switch_screen(load_screen(ScreenName::Menu));
       }

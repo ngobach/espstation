@@ -26,6 +26,15 @@ public:
   String get_time_string() {
     return ntp.getFormattedTime();
   }
+
+  String get_date_string() {
+    time_t epoch = ntp.getEpochTime();
+    tm *now = localtime(&epoch);
+    char buffer[32];
+    sprintf(buffer, "%04d-%02d-%02d", now->tm_year + 1900, now->tm_mon + 1, now->tm_mday);
+
+    return String(buffer);
+  }
 };
 
 NtpTime_ NtpTime;
