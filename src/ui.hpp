@@ -6,63 +6,10 @@
 #include "extra_fonts.h"
 #include "conf.hpp"
 #include "scheduler.hpp"
+#include "screens/screens.hpp"
 
 namespace appui
 {
-  enum KeyCode
-  {
-    Main,
-    Sub,
-  };
-
-  class Screen
-  {
-  protected:
-    void update(std::function<void()> inner) {
-      inner();
-      is_dirty = true;
-    }
-
-    const uint8_t* get_font_default() {
-      return u8g2_font_5x7_tf;
-    }
-
-    const uint8_t* get_font_small() {
-      return u8g2_font_4x6_tf;
-    }
-
-    const uint8_t* get_font_icon_16() {
-      return u8g2_font_open_iconic_all_1x_t;
-    }
-
-    const uint8_t* get_font_icon_21() {
-      return u8g2_font_streamline_all_t;
-    }
-    
-    void draw_title(U8G2 *g, String title)
-    {
-      g->drawBox(0, g->getHeight() - 10, g->getWidth(), 10);
-      g->setDrawColor(0);
-      g->drawStr(
-          (g->getWidth() - g->getStrWidth(title.c_str())) / 2,
-          g->getHeight() - 2,
-          title.c_str());
-      g->setDrawColor(1);
-    }
-
-  public:
-    virtual ~Screen() {};
-
-    bool is_dirty = true;
-    virtual void mount() {}
-    virtual void unmount() {}
-    virtual void paint(U8G2 *g) = 0;
-    virtual void key_pressed(KeyCode kc, bool is_long){}
-    virtual void on_tick() {}
-  };
-
-  std::unique_ptr<Screen> get_initial_screen();
-
   struct PinReadState
   {
     int8_t pin;
@@ -89,7 +36,7 @@ namespace appui
           .pin = D3,
           .key_code = KeyCode::Main,
       });
-      screen = get_initial_screen();
+      screen = load_screen(ScreenName::Loading);
     }
 
     void begin()
@@ -170,3 +117,7 @@ namespace appui
 }
 
 appui::AppUI_ AppUI;
+
+void appui::switch_screen(ScreenName name) {
+  AppUI.switch_screen(load_screen(name));
+}

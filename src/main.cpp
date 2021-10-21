@@ -2,7 +2,7 @@
 #include <ESP8266WiFi.h>
 #include "conf.hpp"
 #include "ui.hpp"
-#include "screens.hpp"
+#include "screens/screens.hpp"
 #include "ntptime.hpp"
 #include "scheduler.hpp"
 
