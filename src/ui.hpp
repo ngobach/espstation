@@ -2,10 +2,10 @@
 
 #include <functional>
 #include <Arduino.h>
-#include <Ticker.h>
 #include <U8g2lib.h>
 #include "extra_fonts.h"
 #include "conf.hpp"
+#include "scheduler.hpp"
 
 namespace appui
 {
@@ -74,7 +74,6 @@ namespace appui
   {
   private:
     bool initialized = false;
-    Ticker ticker;
     U8G2_PCD8544_84X48_F_4W_HW_SPI u8g2 = U8G2_PCD8544_84X48_F_4W_HW_SPI(U8G2_R2, D8, D0, D1);
     std::vector<PinReadState> pin_reads;
     std::unique_ptr<Screen> screen;
@@ -107,8 +106,7 @@ namespace appui
 
       u8g2.begin();
 
-      ticker.attach_ms(100, [this]
-                       { this->__tick(); });
+      MainLoops.emplace_back([this] { this->__tick(); });
       initialized = true;
     }
 

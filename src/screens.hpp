@@ -7,7 +7,7 @@
 #include "ui.hpp"
 #include "ntptime.hpp"
 #include "corelib.hpp"
-#include "ts.h"
+#include "scheduler.hpp"
 
 namespace appui
 {

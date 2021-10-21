@@ -4,7 +4,7 @@
 #include "ui.hpp"
 #include "screens.hpp"
 #include "ntptime.hpp"
-#include "ts.h"
+#include "scheduler.hpp"
 
 void setup() {
   Serial.begin(9600);
@@ -15,4 +15,8 @@ void setup() {
 
 void loop() {
   TS.update();
+  for (auto &fn : MainLoops) {
+    fn();
+    yield();
+  }
 }
