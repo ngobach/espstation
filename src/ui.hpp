@@ -118,6 +118,6 @@ namespace appui
 
 appui::AppUI_ AppUI;
 
-void appui::switch_screen(ScreenName name) {
-  AppUI.switch_screen(load_screen(name));
+void appui::switch_screen(ScreenName name, ScreenParams params) {
+  AppUI.switch_screen(load_screen(name, std::move(params)));
 }

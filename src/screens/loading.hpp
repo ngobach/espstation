@@ -5,7 +5,6 @@
 #include "ntptime.hpp"
 
 namespace appui {
-  
   class LoadingScreen : public Screen
   {
   private:
@@ -21,7 +20,7 @@ namespace appui {
       {
         draw_title(g, "Connecting...");
         g->setFont(get_font_icon_21());
-        g->drawUTF8((g->getWidth() - 21) / 2, (g->getHeight() - 15 + 21) / 2, "\u01fd");
+        g->drawGlyph((g->getWidth() - 21) / 2, (g->getHeight() - 15 + 21) / 2, 0x01fd);
       }
       else
       {
