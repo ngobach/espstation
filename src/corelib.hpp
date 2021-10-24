@@ -43,9 +43,9 @@ namespace core
         for (size_t i = 0; i < doc.size(); i++) {
           JsonObject obj = doc[i];
           Coin coin;
-          strcpy(coin.name, obj["Name"].as<const char*>());
-          strcpy(coin.symbol, obj["Symbol"].as<const char*>());
-          coin.current_price = obj["CurrentPrice"].as<double>();
+          strcpy(coin.name, obj["name"].as<const char*>());
+          strcpy(coin.symbol, obj["symbol"].as<const char*>());
+          coin.current_price = obj["current_price"].as<double>();
           coins.emplace_back(coin);
         }
       }
